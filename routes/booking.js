@@ -6,6 +6,8 @@ router.get('/', function(req, res, next) {
 	var db = req.db,
 		collection = db.get('bookings');
 
+	console.log('auth name: ' + req.auth.name);
+
 	collection.find({}, {}, function(e, docs) {
 		if (e) {
 			return res.sendStatus(500);

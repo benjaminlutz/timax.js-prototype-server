@@ -3,6 +3,7 @@ var express = require('express'),
     path = require('path'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
+    jwt = require('express-jwt'),
     mongo = require('mongodb'),
     monk = require('monk'),
     db = monk('localhost:27017/timax-js-prototype');
@@ -18,6 +19,25 @@ app.use(function(req, res, next) {
     req.db = db;
     next();
 });
+
+// configure jwt
+app.use(jwt({
+    secret: 'katze123',
+    userProperty: 'auth'
+}).unless({
+    path: ['/token']
+}));
+
+// jwt error behaviour
+app.use(function(err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).send('invalid token...');
+    }
+});
+
+// token provider route
+var token = require('./routes/token');
+app.use('/token', token);
 
 // booking route
 var booking = require('./routes/booking');
