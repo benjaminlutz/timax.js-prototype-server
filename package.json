@@ -9,6 +9,8 @@
     "body-parser": "~1.10.2",
     "debug": "~2.1.1",
     "morgan": "~1.5.1",
-    "express": "~4.11.1"
+    "express": "~4.11.1",
+    "mongodb": "1.4.29",
+    "monk": "0.9.1"
   }
 }

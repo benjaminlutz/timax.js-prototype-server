@@ -2,29 +2,34 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-	var bookings = [
-		{
-			name: 'Book 1',
-			start: '15:40',
-			end: '15:40'
-		},
-		{
-			name: 'Book 2',
-			start: '17:80',
-			end: '19:90'
-		}
-	];
+	var db = req.db;
+	var collection = db.get('bookings');
 
-	res.send(bookings);
+	collection.find({}, {}, function(e, docs) {
+		if (e) {
+			return res.send(500);
+		}
+
+		res.send(docs);
+	});
 });
 
 router.post('/', function(req, res, next) {
-	var booking = req.body;
+	var db = req.db;
+	var collection = db.get('bookings');
 
-	console.log(booking);
-	booking.test = true;
+	// TODO do some validation...
+	collection.insert({
+		"name": req.body.name,
+		"start": req.body.start,
+		"end": req.body.end
+	}, function(e, doc) {
+		if (e) {
+			return res.send(500);
+		}
 
-	res.send(booking);
+		res.send(doc);
+	});
 });
 
 module.exports = router;

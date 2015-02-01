@@ -2,6 +2,9 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk('localhost:27017/timax-js-prototype');
 
 var booking = require('./routes/booking');
 
@@ -9,7 +12,15 @@ var app = express();
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+// Make our db accessible to our router
+app.use(function(req, res, next) {
+    req.db = db;
+    next();
+});
 
 app.use('/booking', booking);
 
