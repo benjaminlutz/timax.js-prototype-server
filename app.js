@@ -54,5 +54,8 @@ app.use(function(err, req, res, next) {
     });
 });
 
+app.listen(app.get('port'), function() {
+    console.log(('timax.js server listening on port ' + app.get('port')));
+});
 
 module.exports = app;
