@@ -1,14 +1,11 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/timax-js-prototype');
-
-var booking = require('./routes/booking');
-
-var app = express();
+var express = require('express'),
+    app = express(),
+    path = require('path'),
+    logger = require('morgan'),
+    bodyParser = require('body-parser'),
+    mongo = require('mongodb'),
+    monk = require('monk'),
+    db = monk('localhost:27017/timax-js-prototype');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -22,6 +19,8 @@ app.use(function(req, res, next) {
     next();
 });
 
+// booking route
+var booking = require('./routes/booking');
 app.use('/booking', booking);
 
 // catch 404 and forward to error handler
