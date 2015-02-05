@@ -19,33 +19,26 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 	var db = req.db,
-		collection = db.get('bookings'),
-		newBooking = {};
+		collection = db.get('bookings');
 
-	if (validator.isAlphanumeric(req.body.name)) {
-		newBooking.name = req.body.name;
-	} else {
+	if (!validator.isAlphanumeric(req.body.name)) {
 		console.log(req.body.name);
 		return res.sendStatus(400);
 	}
 
 	// TODO replace with isDate when type was changed...
-	if (validator.contains(req.body.start, ':')) {
-		newBooking.start = req.body.start;
-	} else {
+	if (!validator.contains(req.body.start, ':')) {
 		console.log(req.body.start);
 		return res.sendStatus(400);
 	}
 
 	// TODO replace with isDate when type was changed...
-	if (validator.contains(req.body.end, ':')) {
-		newBooking.end = req.body.end;
-	} else {
+	if (!validator.contains(req.body.end, ':')) {
 		console.log(req.body.end);
 		return res.sendStatus(400);
 	}
 
-	collection.insert(newBooking, function(e, doc) {
+	collection.insert(req.body, function(e, doc) {
 		if (e) {
 			return res.sendStatus(500);
 		}
