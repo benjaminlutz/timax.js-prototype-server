@@ -20,6 +20,13 @@ app.use(function(req, res, next) {
     next();
 });
 
+// configure CORS header
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 // configure jwt
 app.use(jwt({
     secret: 'katze123',
