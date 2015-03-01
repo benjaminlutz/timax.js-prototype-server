@@ -25,7 +25,7 @@ app.use(jwt({
     secret: 'katze123',
     userProperty: 'auth'
 }).unless({
-    path: ['/token']
+    path: ['/token', '/']
 }));
 
 // jwt error behaviour
@@ -42,6 +42,9 @@ app.use('/token', token);
 // booking route
 var booking = require('./routes/booking');
 app.use('/booking', booking);
+
+// serve static content
+app.use(express.static(__dirname + '/static'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
