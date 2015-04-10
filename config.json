@@ -1,4 +1,5 @@
 {
   "port": 3000,
-  "secret": "HundKatzeMaus123"
+  "secret": "HundKatzeMaus123",
+  "mongo": "localhost:27017/timax-js-prototype"
 }

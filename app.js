@@ -7,7 +7,7 @@ var express = require('express'),
     mongo = require('mongodb'),
     monk = require('monk'),
     conf = require('./config.json');
-    db = monk('localhost:27017/timax-js-prototype');
+    db = monk(conf.mongo);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
