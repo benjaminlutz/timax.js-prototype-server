@@ -7,7 +7,16 @@ var express = require('express'),
     mongo = require('mongodb'),
     monk = require('monk'),
     conf = require('./config.json');
-    db = monk(conf.mongo);
+    db = monk(conf.mongo),
+    mubsub = require('mubsub');
+
+// mubsub
+var mubsubclient = mubsub('mongodb://localhost:27017/mubsub');
+var channel = mubsubclient.channel('bookings');
+
+channel.subscribe('bookings', function (booking) {
+    console.log('new booking via pub/sub');
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -15,9 +24,10 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// Make our db accessible to our router
+// Make our db and pub/sub channel accessible to our router
 app.use(function(req, res, next) {
     req.db = db;
+    req.pubsub = channel;
     next();
 });
 

@@ -19,6 +19,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
 	var db = req.db,
+		pubsub = req.pubsub,
 		collection = db.get('bookings');
 
 	if (!validator.isAlphanumeric(req.body.name)) {
@@ -42,6 +43,8 @@ router.post('/', function(req, res, next) {
 		if (e) {
 			return res.sendStatus(500);
 		}
+
+		pubsub.publish('bookings', doc);
 
 		res.send(doc);
 	});
