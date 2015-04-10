@@ -8,6 +8,11 @@ var app = require('../app');
 var debug = require('debug')('timax.js-prototype-server:server');
 var http = require('http');
 var conf = require('../config.json');
+var mubsub = require('mubsub');
+
+// mubsub
+var mubsubclient = mubsub('mongodb://localhost:27017/mubsub');
+var channel = mubsubclient.channel('bookings');
 
 /**
  * Get port from conf file and store in Express.
@@ -34,7 +39,11 @@ io.use(socketioJwt.authorize({
 
 io.on('connection', function (socket) {
     console.log('Websocket client connected...');
-    socket.emit('booking', { name: 'Websocket Booking', start: '08:00', end: '16:00' } );
+
+    channel.subscribe('bookings', function (booking) {
+        console.log('new booking via pub/sub');
+        socket.emit('booking', booking );
+    });
 });
 
 /**

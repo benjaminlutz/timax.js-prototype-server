@@ -14,10 +14,6 @@ var express = require('express'),
 var mubsubclient = mubsub('mongodb://localhost:27017/mubsub');
 var channel = mubsubclient.channel('bookings');
 
-channel.subscribe('bookings', function (booking) {
-    console.log('new booking via pub/sub');
-});
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
