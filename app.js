@@ -6,6 +6,7 @@ var express = require('express'),
     jwt = require('express-jwt'),
     mongo = require('mongodb'),
     monk = require('monk'),
+    conf = require('./config.json');
     db = monk('localhost:27017/timax-js-prototype');
 
 app.use(logger('dev'));
@@ -30,7 +31,7 @@ app.use(function(req, res, next) {
 
 // configure jwt
 app.use(jwt({
-    secret: 'katze123',
+    secret: conf.secret,
     userProperty: 'auth'
 }).unless({
     path: ['/token', '/']
