@@ -8,10 +8,10 @@
   "dependencies": {
     "body-parser": "~1.10.2",
     "debug": "~2.1.1",
-    "jsonwebtoken": "4.2.0",
+    "jsonwebtoken": "5.0.0",
     "morgan": "~1.5.1",
     "express": "~4.11.1",
-    "express-jwt": "1.0.0",
+    "express-jwt": "2.1.0",
     "validator": "3.28.0",
     "mongodb": "1.4.29",
     "monk": "0.9.1",
